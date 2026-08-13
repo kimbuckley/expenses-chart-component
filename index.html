@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  
+  <title>Frontend Mentor | Expenses chart component</title>
+
+  <style>
+    body { 
+      background: hsl(26, 66%, 93%); 
+      font-family: 'DM Sans', sans-serif; 
+      margin: 0;
+      min-height: 100vh;
+      align-content: center;
+      padding: 1rem;
+    }
+    header { 
+      background: hsl(10, 79%, 65%); 
+      border-radius: 1rem;
+      color: white; 
+      padding: 2rem; 
+      max-width: 540px; 
+      margin: 0 auto 1.25rem; 
+      display: flex;
+      justify-content: space-between;
+    }
+    header #balance {
+      font-size: 1.75rem; 
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+    .circle-container {
+      display: flex; /* Aligns circles horizontally */
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+    .circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%; /* Makes the divs perfect circles */
+    }
+    .circle-1 {
+      border: 2px solid white;
+      z-index: 999;
+    }
+    .circle-2 {
+      background-color: black; /* Semitransparent blue */
+      margin-left: -20px; /* Pulls the second circle over the first */
+    }
+    main { 
+      background: white; 
+      border-radius: 1rem; 
+      padding: 2rem; 
+      max-width: 540px;
+      margin: 0 auto; 
+    }
+    #main-bottom { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: last baseline;
+      clear: both;
+      margin-top: 2rem; 
+      border-top: 1px solid hsl(27, 66%, 92%);
+      padding-top: 1.5rem;
+      color: hsl(28, 10%, 53%);
+    }
+    h1 { 
+      margin-top: 0
+    }
+    ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 0;
+      margin-left: .6rem;
+      margin-top: 0;
+    }
+    li {
+      color: hsl(28, 10%, 53%);
+      font-weight: 300;
+      float: left;
+      width: 14.28%; /* 100% / 7 days */
+      text-align: center;
+      
+    }
+    #total { 
+      font-size: 2.75rem; 
+      font-weight: 700; 
+      color: black;
+    }
+    #bottom-right { 
+      text-align: right; 
+    }
+    #percentage {
+      color: black;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div id="header-left">
+      <div>My balance</div>
+      <div id="balance">$921.48</div>
+    </div>
+    <div id="header-right">
+      <div class="circle-container">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <h1>Spending - Last 7 days</h1>
+
+    <div>
+        <canvas id="myBarChart"></canvas>
+    </div>
+
+    <ul>
+      <li>mon</li>
+      <li>tue</li>
+      <li>wed</li>
+      <li>thu</li>
+      <li>fri</li>
+      <li>sat</li>
+      <li>sun</li>
+    </ul>
+    
+    <div id="main-bottom">
+      <div id="bottom-left">
+        <div>Total this month</div>
+        <div id="total">$478.33</div>
+      </div>
+      <div id="bottom-right">
+        <div id="percentage">+2.4%</div>
+        <div>from last month</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom JavaScript file -->
+  <script src="app.js"></script>
+  
+</body>
+</html>
