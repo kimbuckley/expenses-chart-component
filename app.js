@@ -1,18 +1,22 @@
 // Function to fetch JSON and render chart
 async function createChart() {
     try {
-        // 1. Fetch data from your JSON file
+        // Fetch data from your JSON file
         const response = await fetch('data.json');
         const jsonData = await response.json();
 
-        // 2. Parse JSON data into separate arrays using map()
+        // Parse JSON data into separate arrays using map()
         const labels = jsonData.map(item => item.day);
         const dataValues = jsonData.map(item => item.amount);
 
-        // 3. Target the HTML canvas element
+        // Target the HTML canvas element
         const ctx = document.getElementById('myBarChart').getContext('2d');
 
-        // 4. Initialize Chart.js
+        // Find today's day of the week and check if it matches any day in the JSON data
+        const today = ['sun','mon','tue','wed','thu','fri','sat'][new Date().getDay()];
+        const isToday = jsonData.map(item => item.day === today);
+
+        // Initialize Chart.js
         new Chart(ctx, {
             type: 'bar', 
             data: {
@@ -20,10 +24,10 @@ async function createChart() {
                 datasets: [{
                     label: '',
                     data: dataValues, // Set y-axis values
-                    backgroundColor: 'hsl(10, 79%, 65%)',
-                    borderColor: 'hsl(10, 79%, 65%)',
-                    hoverBackgroundColor: 'hsl(186, 34%, 65%)',
-                    hoverBorderColor: 'hsl(186, 34%, 65%)',
+                    borderColor: isToday.map(t => t ? 'hsl(186, 34%, 60%)' : 'hsl(10, 79%, 65%)'),
+                    backgroundColor: isToday.map(t => t ? 'hsl(186, 34%, 60%)' : 'hsl(10, 79%, 65%)'),
+                    hoverBackgroundColor: isToday.map(t => t ? 'hsl(186, 55%, 82%)' : 'hsl(10, 79%, 80%)'),
+                    hoverBorderColor: isToday.map(t => t ? 'hsl(186, 55%, 82%)' : 'hsl(10, 79%, 80%)'),
                     borderRadius: {
                         topLeft: 5,
                         topRight: 5,
@@ -63,10 +67,9 @@ async function createChart() {
                 scales: {
                     x: {
                         grid: {
-                            display: false // Hides x-axis grid lines
-                        },
-                        ticks: {
-                            display: false // This completely hides the X-axis text numbers/labels
+                            display: false, // Hides x-axis grid lines
+                            border: { display: false },
+                            ticks: { color: 'hsl(28, 10%, 53%)', font: { family: 'DM Sans', size: 15 }, padding: 8 }
                         },
                         border: {
                             display: false // Hides the x-axis border line
@@ -87,6 +90,10 @@ async function createChart() {
                 }
             }
         });
+
+        document.getElementById('chart-data').innerHTML =
+            '<caption>Spending, last 7 days</caption><tr><th>Day</th><th>Amount</th></tr>' +
+            jsonData.map(d => `<tr><td>${d.day}</td><td>$${d.amount.toFixed(2)}</td></tr>`).join('');
 
     } catch (error) {
         console.error('Error loading or parsing JSON data:', error);
